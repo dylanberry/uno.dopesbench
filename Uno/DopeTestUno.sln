@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.36
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DopeTestUno.Shared", "DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DopeTestUno.iOS", "DopeTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DopeTestUno.UWP", "DopeTestUno\DopeTestUno.UWP\DopeTestUno.UWP.csproj", "{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DopeTestUno.Wasm", "DopeTestUno\DopeTestUno.Wasm\DopeTestUno.Wasm.csproj", "{2CB5CE61-43EC-4411-9ADC-46890E794351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DopeTestUno.Wasm", "DopeTestUno\DopeTestUno.Wasm\DopeTestUno.Wasm.csproj", "{2CB5CE61-43EC-4411-9ADC-46890E794351}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DopeTestUno.macOS", "DopeTestUno\DopeTestUno.macOS\DopeTestUno.macOS.csproj", "{25FD8A81-14E5-4389-B471-4676C846ED56}"
 EndProject
@@ -113,11 +113,7 @@ Global
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x64.Build.0 = Debug|Any CPU
-		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x64.Deploy.0 = Debug|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x86.Build.0 = Debug|Any CPU
-		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Debug|x86.Deploy.0 = Debug|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDF53067-4643-4D38-9F5D-15B7D1F99BA5}.Release|Any CPU.Deploy.0 = Release|Any CPU
@@ -288,9 +284,7 @@ Global
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|x64.Build.0 = Debug|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Debug|x86.Build.0 = Debug|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2CB5CE61-43EC-4411-9ADC-46890E794351}.Release|ARM.ActiveCfg = Release|Any CPU
