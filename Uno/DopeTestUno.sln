@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DopeTestUno.Shared", "DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
@@ -231,6 +231,7 @@ Global
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Debug|x86.Deploy.0 = Debug|x86
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|Any CPU.ActiveCfg = Release|x86
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|Any CPU.Build.0 = Release|x86
+		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|Any CPU.Deploy.0 = Release|x86
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|ARM.ActiveCfg = Release|ARM
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|ARM.Build.0 = Release|ARM
 		{CE6D75C9-C8EF-4C98-A1AA-B3A8A7EC2E07}.Release|ARM.Deploy.0 = Release|ARM
