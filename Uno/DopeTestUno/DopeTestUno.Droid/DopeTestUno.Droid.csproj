@@ -104,5 +104,5 @@
   <Import Project="..\DopeTestUno.Shared\DopeTestUno.Shared.projitems" Label="Shared" Condition="Exists('..\DopeTestUno.Shared\DopeTestUno.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- This will force the generation of the APK when not building inside visual studio -->
-  <Target Name="GenerateBuild" DependsOnTargets="SignAndroidPackage" AfterTargets="Build" Condition="'$(BuildingInsideVisualStudio)'==''" />
+  <!--<Target Name="GenerateBuild" DependsOnTargets="SignAndroidPackage" AfterTargets="Build" Condition="'$(BuildingInsideVisualStudio)'==''" />-->
 </Project>
