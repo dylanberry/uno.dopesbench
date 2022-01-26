@@ -72,7 +72,6 @@
 				Content="@ Stop"
 					Background="Red" 
 					HorizontalAlignment="Center"
-					Visibility="Collapsed"
 					Click="Stop_Clicked"/>
 
 			<!--<Button x:Name="startMT"
