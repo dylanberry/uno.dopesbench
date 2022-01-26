@@ -8,7 +8,7 @@
 
   <Identity
     Name="ce6d75c9-c8ef-4c98-a1aa-b3a8a7ec2e07"
-    Publisher="CN=jerome.laban"
+    Publisher="CN=Invoke"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="59ec553d-ba3b-4385-b558-bec8658bfdaa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
