@@ -641,7 +641,7 @@ namespace DopeTestUno
 
         private void SetControlsAtStart()
         {
-            startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Collapsed;
+            startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
             stop.Visibility = dopes.Visibility = Visibility.Visible;
             absolute.Children.Clear();
             grid.Children.Clear();
@@ -675,7 +675,7 @@ namespace DopeTestUno
 		void Stop_Clicked(System.Object sender, object e)
         {
             breakTest = true;
-            stop.Visibility = Visibility.Collapsed;
+            stop.Visibility = Visibility.Visible;
             startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
         }
     }
