@@ -301,12 +301,12 @@ namespace DopeTestUno
                     }
                 }
 
-                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => loop());
+                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => loop());
             };
 
             sw.Start();
 
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => loop());
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => loop());
         }
 
         void StartTestReuseST()
