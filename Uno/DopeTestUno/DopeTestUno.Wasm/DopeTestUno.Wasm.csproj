@@ -50,7 +50,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Uno.Core" Version="4.0.1" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.11" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.0-dev.606" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.0-dev.617" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.2.0-dev.24" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.2.0-dev.24" />
   </ItemGroup>
