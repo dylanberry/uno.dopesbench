@@ -136,6 +136,61 @@ app {
     top: 0.5rem;
 }
 
+/*      @@font-face {
+          font-family: 'IBMPlexMono';
+          src: url(IBMPlexMono-Regular.woff) format("woff");
+          font-weight: normal;
+          font-style: normal;
+      }*/
+
+body {
+    background-color: black;
+    text-align: center;
+    font-family: IBMPlexMono;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+}
+
+#root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+button {
+    font-family: 'IBMPlexMono';
+    position: absolute;
+    /*top: @(Height - 50)px;*/
+    border: none;
+    color: white;
+    height: 30px;
+    width: 96px;
+    transform: translateX(-48px);
+    font-size: 15px;
+    z-index: 1;
+}
+
+#stop {
+    background-color: red;
+}
+
+#start {
+    background-color: green;
+}
+
+#dopes {
+    background-color: red;
+    position: absolute;
+    top: 20px;
+    width: 180px;
+    transform: translateX(-90px);
+    padding: 7px;
+}
+
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;
