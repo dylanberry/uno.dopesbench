@@ -1,4 +1,5 @@
-﻿using Saplin.xOPS.UI.Misc;
+﻿using Newtonsoft.Json;
+using Saplin.xOPS.UI.Misc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -261,7 +262,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
 					var label = new TextBlock()
 					{
@@ -346,7 +347,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     var label = _cache.Count == 0 ? new TextBlock() { Foreground = new SolidColorBrush() } : _cache.Pop();
 
@@ -515,7 +516,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     var index = current++ % source.Length;
 
@@ -589,7 +590,7 @@ namespace DopeTestUno
                 var now = sw.ElapsedMilliseconds;
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     if (processed > max)
                     {
@@ -677,6 +678,79 @@ namespace DopeTestUno
             breakTest = true;
             stop.Visibility = Visibility.Visible;
             startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
+        }
+
+        async void startAll_Clicked(System.Object sender, object e)
+        {
+
+            var startSTCts = new CancellationTokenSource(12000);
+            SetControlsAtStart();
+            startST.Visibility = Visibility.Collapsed;
+            startST.IsEnabled = false;
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestST());
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (startSTCts.Token.IsCancellationRequested)
+                    {
+                        breakTest = true;
+                        break;
+                    }
+                }
+            });
+            // TODO: save result
+            var resultST = dopes.Text;
+            startST.IsEnabled = true;
+            startST.Visibility = Visibility.Visible;
+
+            var startChangeSTCts = new CancellationTokenSource(12000);
+            SetControlsAtStart();
+            startChangeST.Visibility = Visibility.Collapsed;
+            startChangeST.IsEnabled = false;
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestChangeST());
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (startChangeSTCts.Token.IsCancellationRequested)
+                    {
+                        breakTest = true;
+                        break;
+                    }
+                }
+            });
+            // TODO: save result
+            var resultChangeST = dopes.Text;
+            startChangeST.IsEnabled = true;
+            startChangeST.Visibility = Visibility.Visible;
+
+            var startGridSTCts = new CancellationTokenSource(12000);
+            SetControlsAtStart();
+            startGridST.Visibility = Visibility.Collapsed;
+            startGridST.IsEnabled = false;
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestBindings());
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (startGridSTCts.Token.IsCancellationRequested)
+                    {
+                        breakTest = true;
+                        break;
+                    }
+                }
+            });
+            // TODO: save result
+            var resultGridST = dopes.Text;
+            startGridST.IsEnabled = true;
+            startGridST.Visibility = Visibility.Visible;
+
+            var results = new { Build = resultST, Change = resultChangeST, Grid = resultGridST };
+            string jsonString = JsonSerializer.Serialize(results);
+
+            Console.WriteLine(jsonString);
+
         }
     }
 
