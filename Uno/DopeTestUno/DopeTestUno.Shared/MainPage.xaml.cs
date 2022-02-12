@@ -747,9 +747,9 @@ namespace DopeTestUno
             startGridST.Visibility = Visibility.Visible;
 
             var results = new { Build = resultST, Change = resultChangeST, Grid = resultGridST };
-            string jsonString = JsonSerializer.Serialize(results);
+            //string jsonString = JsonSerializer.Serialize(results);
 
-            Console.WriteLine(jsonString);
+            //Console.WriteLine(jsonString);
 
         }
     }
