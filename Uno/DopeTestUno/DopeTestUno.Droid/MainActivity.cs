@@ -13,6 +13,11 @@ namespace DopeTestUno.Droid
 		)]
 	public class MainActivity : Windows.UI.Xaml.ApplicationActivity
 	{
-	}
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
+			Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+		}
+    }
 }
 

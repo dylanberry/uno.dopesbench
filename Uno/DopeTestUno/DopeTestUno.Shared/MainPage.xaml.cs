@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Azure;
+using Azure.Storage.Blobs;
+using Newtonsoft.Json;
 using Saplin.xOPS.UI.Misc;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -682,75 +685,64 @@ namespace DopeTestUno
 
         async void startAll_Clicked(System.Object sender, object e)
         {
+            int testLengthMs = 60000;
+            int pauseLengthMs = 100;
 
-            var startSTCts = new CancellationTokenSource(12000);
-            SetControlsAtStart();
-            startST.Visibility = Visibility.Collapsed;
-            startST.IsEnabled = false;
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestST());
-            await Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (startSTCts.Token.IsCancellationRequested)
-                    {
-                        breakTest = true;
-                        break;
-                    }
-                }
-            });
-            // TODO: save result
-            var resultST = dopes.Text;
-            startST.IsEnabled = true;
-            startST.Visibility = Visibility.Visible;
+            startST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultST);
 
-            var startChangeSTCts = new CancellationTokenSource(12000);
-            SetControlsAtStart();
-            startChangeST.Visibility = Visibility.Collapsed;
-            startChangeST.IsEnabled = false;
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestChangeST());
-            await Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (startChangeSTCts.Token.IsCancellationRequested)
-                    {
-                        breakTest = true;
-                        break;
-                    }
-                }
-            });
-            // TODO: save result
-            var resultChangeST = dopes.Text;
-            startChangeST.IsEnabled = true;
-            startChangeST.Visibility = Visibility.Visible;
+            startChangeST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultChangeST);
 
-            var startGridSTCts = new CancellationTokenSource(12000);
-            SetControlsAtStart();
-            startGridST.Visibility = Visibility.Collapsed;
-            startGridST.IsEnabled = false;
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => StartTestBindings());
-            await Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (startGridSTCts.Token.IsCancellationRequested)
-                    {
-                        breakTest = true;
-                        break;
-                    }
-                }
-            });
-            // TODO: save result
-            var resultGridST = dopes.Text;
-            startGridST.IsEnabled = true;
-            startGridST.Visibility = Visibility.Visible;
+            startChangeReuse_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultReuseST);
 
-            var results = new { Build = resultST, Change = resultChangeST, Grid = resultGridST };
-            //string jsonString = JsonSerializer.Serialize(results);
+            startGridST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultGridST);
 
-            //Console.WriteLine(jsonString);
+            var platformVersion = "Uno Platform 4.1.0-dev.617";
 
+#if NETFX_CORE
+            var operatingSystem = "UWP";
+#elif __ANDROID__
+            var operatingSystem = "Android";
+#elif __IOS__
+            var operatingSystem = "iOS";
+#elif HAS_UNO_WASM
+            var operatingSystem = "WASM";
+#elif HAS_UNO_SKIA
+            var operatingSystem = "SKIA";
+#else
+            var operatingSystem = "Unknown";
+#endif
+
+            var results = new { OS = operatingSystem, Platform = platformVersion, Build = resultST, Change = resultChangeST, Reuse = resultReuseST, Grid = resultGridST };
+            string jsonString = JsonConvert.SerializeObject(results);
+
+            Console.WriteLine(jsonString);
+
+            var client = new BlobServiceClient(Config.StorageConnectionString);
+            var blobContainerClient = client.GetBlobContainerClient("results");
+            await blobContainerClient.CreateIfNotExistsAsync();
+
+            var filename = $"{operatingSystem}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
+
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
+                await blobContainerClient.UploadBlobAsync(filename, memoryStream);
+
+            Console.WriteLine("Uploaded.");
         }
     }
 
