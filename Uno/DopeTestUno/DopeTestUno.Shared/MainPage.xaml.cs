@@ -762,7 +762,8 @@ namespace DopeTestUno
 
             try
             {
-                var client = new BlobServiceClient(Config.StorageConnectionString);
+                //var client = new BlobServiceClient(Config.StorageConnectionString);
+                var client = new BlobServiceClient(new Uri(Config.StorageUrl), new AzureSasCredential(Config.StorageSasToken));
                 var blobContainerClient = client.GetBlobContainerClient("results");
                 await blobContainerClient.CreateIfNotExistsAsync();
 
