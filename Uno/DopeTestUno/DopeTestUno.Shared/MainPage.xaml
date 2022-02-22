@@ -72,35 +72,42 @@
 				Content="Stop"
 					Background="Red" 
 					HorizontalAlignment="Center"
+                    Visibility="Collapsed"
 					Click="Stop_Clicked"/>
+            
+            <StackPanel x:Name="startButtons"
+					Orientation="Horizontal"
+					VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center">
+                        
 
-            <Button x:Name="startAll"
-				Content="All"
-					Background="Green" 
-					HorizontalAlignment="Center"
-					Click="startAll_Clicked"/>
+				<Button x:Name="startAll"
+					Content="All"
+						Background="Green" 
+						HorizontalAlignment="Center"
+						Click="startAll_Clicked"/>
 
-            <!--<Button x:Name="startMT"
-            Text="@ MT" BackgroundColor="Blue"
-            Clicked="startMT_Clicked"/>-->
-			<Button x:Name="startST"
-				Content="@ Build"
-				Background="Blue"
-				Click="startST_Clicked"/>
-			<Button x:Name="startGridST"
-				Content="@ Binding 2" 
+				<!--<Button x:Name="startMT"
+				Text="@ MT" BackgroundColor="Blue"
+				Clicked="startMT_Clicked"/>-->
+				<Button x:Name="startST"
+					Content="@ Build"
 					Background="Blue"
-				Click="startGridST_Clicked"/>
-			<Button x:Name="startChangeST"
-				Content="@ Change"
-					Background="Blue"
-				Click="startChangeST_Clicked"/>
-			<Button x:Name="startReuseST"
-				Content="@ Reuse 2"
-					Background="Blue"
-				Click="startChangeReuse_Clicked"/>
-
-		</StackPanel>
+					Click="startST_Clicked"/>
+				<Button x:Name="startGridST"
+					Content="@ Binding 2" 
+						Background="Blue"
+					Click="startGridST_Clicked"/>
+				<Button x:Name="startChangeST"
+					Content="@ Change"
+						Background="Blue"
+					Click="startChangeST_Clicked"/>
+				<Button x:Name="startReuseST"
+					Content="@ Reuse 2"
+						Background="Blue"
+					Click="startChangeReuse_Clicked"/>
+            </StackPanel>
+        </StackPanel>
 
 	</Grid>
 </Page>

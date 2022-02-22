@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +23,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Xamarin.Essentials;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -645,7 +647,7 @@ namespace DopeTestUno
 
         private void SetControlsAtStart()
         {
-            startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
+            startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Collapsed;
             stop.Visibility = dopes.Visibility = Visibility.Visible;
             absolute.Children.Clear();
             grid.Children.Clear();
@@ -679,13 +681,45 @@ namespace DopeTestUno
 		void Stop_Clicked(System.Object sender, object e)
         {
             breakTest = true;
-            stop.Visibility = Visibility.Visible;
+            stop.Visibility = Visibility.Collapsed;
             startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
         }
 
         async void startAll_Clicked(System.Object sender, object e)
         {
-            int testLengthMs = 60000;
+#if !HAS_UNO_WASM
+            var test = Windows.System.Profile.AnalyticsInfo.VersionInfo;
+            var test1 = Windows.System.Profile.AnalyticsInfo.DeviceForm;
+            var test2 = new EasClientDeviceInformation();
+            var test3 = test2.SystemSku;
+            var deviceInfo = new
+            {
+                OS = DeviceInfo.Platform.ToString(),
+                OSVersion = DeviceInfo.VersionString,
+                DeviceModel = DeviceInfo.Model,
+                DeviceManufacturer = DeviceInfo.Manufacturer,
+                DeviceName = DeviceInfo.Name,
+                DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+#else
+            var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
+            var browserDeviceIdiom = Windows.System.Profile.AnalyticsInfo.DeviceForm;
+            var clientInfo = new EasClientDeviceInformation();
+            var browserUserAgent = clientInfo.SystemSku;
+            var deviceInfo = new
+            {
+                OS = "WebAssembly",
+                //OSVersion = DeviceInfo.VersionString,
+                DeviceModel = browserUserAgent,
+                //DeviceManufacturer = DeviceInfo.Manufacturer,
+                //DeviceName = DeviceInfo.Name,
+                DeviceIdiom = browserDeviceIdiom,
+                //DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+#endif
+
+            int testLengthMs = 100;//60000;
             int pauseLengthMs = 100;
 
             startST_Clicked(default, default);
@@ -714,35 +748,35 @@ namespace DopeTestUno
 
             var platformVersion = "Uno Platform 4.1.0-dev.617";
 
-#if NETFX_CORE
-            var operatingSystem = "UWP";
-#elif __ANDROID__
-            var operatingSystem = "Android";
-#elif __IOS__
-            var operatingSystem = "iOS";
-#elif HAS_UNO_WASM
-            var operatingSystem = "WASM";
-#elif HAS_UNO_SKIA
-            var operatingSystem = "SKIA";
-#else
-            var operatingSystem = "Unknown";
-#endif
-
-            var results = new { OS = operatingSystem, Platform = platformVersion, Build = resultST, Change = resultChangeST, Reuse = resultReuseST, Grid = resultGridST };
+            var results = new {
+                DeviceInfo = deviceInfo,
+                Platform = platformVersion,
+                Build = resultST,
+                Change = resultChangeST,
+                Reuse = resultReuseST,
+                Grid = resultGridST
+            };
             string jsonString = JsonConvert.SerializeObject(results);
 
             Console.WriteLine(jsonString);
 
-            var client = new BlobServiceClient(Config.StorageConnectionString);
-            var blobContainerClient = client.GetBlobContainerClient("results");
-            await blobContainerClient.CreateIfNotExistsAsync();
+            try
+            {
+                var client = new BlobServiceClient(Config.StorageConnectionString);
+                var blobContainerClient = client.GetBlobContainerClient("results");
+                await blobContainerClient.CreateIfNotExistsAsync();
 
-            var filename = $"{operatingSystem}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
+                var filename = $"{deviceInfo.OS}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
 
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
-                await blobContainerClient.UploadBlobAsync(filename, memoryStream);
+                using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
+                    await blobContainerClient.UploadBlobAsync(filename, memoryStream);
 
-            Console.WriteLine("Uploaded.");
+                Console.WriteLine("Uploaded.");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 

@@ -159,5 +159,13 @@ namespace DopeTestUno
 				.AddConsole(LogLevel.Information);
 #endif
 		}
+
+#if __IOS__
+			public override bool FinishedLaunching(UIApplication app, NSDictionary options) 
+			{
+				base.FinishedLaunching(app, options);
+				//Xamarin.Essentials.Platform.Init(() => provide your own сurrent UIViewController provider);
+			}
+#endif
 	}
 }

@@ -17,6 +17,7 @@ namespace DopeTestUno.Droid
         {
             base.OnCreate(bundle);
 			Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+			Xamarin.Essentials.Platform.Init(this, bundle);
 		}
     }
 }
