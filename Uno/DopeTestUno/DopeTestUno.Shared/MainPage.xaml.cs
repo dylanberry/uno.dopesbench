@@ -15,15 +15,16 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.ExchangeActiveSyncProvisioning;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using Xamarin.Essentials;
+using Windows.UI;
+using Microsoft.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -687,22 +688,19 @@ namespace DopeTestUno
 
         async void startAll_Clicked(System.Object sender, object e)
         {
-#if !HAS_UNO_WASM
-            var test = Windows.System.Profile.AnalyticsInfo.VersionInfo;
-            var test1 = Windows.System.Profile.AnalyticsInfo.DeviceForm;
-            var test2 = new EasClientDeviceInformation();
-            var test3 = test2.SystemSku;
+#if HAS_UNO_SKIA
+            var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
             var deviceInfo = new
             {
-                OS = DeviceInfo.Platform.ToString(),
-                OSVersion = DeviceInfo.VersionString,
-                DeviceModel = DeviceInfo.Model,
-                DeviceManufacturer = DeviceInfo.Manufacturer,
-                DeviceName = DeviceInfo.Name,
-                DeviceIdiom = DeviceInfo.Idiom.ToString(),
-                DeviceType = DeviceInfo.DeviceType.ToString()
+                OS = "Skia",
+                OSVersion = deviceFamilyInfo.DeviceFamilyVersion,
+                //DeviceModel = DeviceInfo.Model,
+                //DeviceManufacturer = DeviceInfo.Manufacturer,
+                //DeviceName = DeviceInfo.Name,
+                //DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                //DeviceType = DeviceInfo.DeviceType.ToString()
             };
-#else
+#elif HAS_UNO_WASM
             var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
             var browserDeviceIdiom = Windows.System.Profile.AnalyticsInfo.DeviceForm;
             var clientInfo = new EasClientDeviceInformation();
@@ -717,9 +715,20 @@ namespace DopeTestUno
                 DeviceIdiom = browserDeviceIdiom,
                 //DeviceType = DeviceInfo.DeviceType.ToString()
             };
+#else
+            var deviceInfo = new
+            {
+                OS = DeviceInfo.Platform.ToString(),
+                OSVersion = DeviceInfo.VersionString,
+                DeviceModel = DeviceInfo.Model,
+                DeviceManufacturer = DeviceInfo.Manufacturer,
+                DeviceName = DeviceInfo.Name,
+                DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                DeviceType = DeviceInfo.DeviceType.ToString()
+            };
 #endif
 
-            int testLengthMs = 100;//60000;
+            int testLengthMs = 60000;
             int pauseLengthMs = 100;
 
             startST_Clicked(default, default);
@@ -759,7 +768,7 @@ namespace DopeTestUno
             string jsonString = JsonConvert.SerializeObject(results);
 
             Console.WriteLine(jsonString);
-
+#if !DEBUG
             try
             {
                 //var client = new BlobServiceClient(Config.StorageConnectionString);
@@ -778,6 +787,7 @@ namespace DopeTestUno
             {
                 throw;
             }
+#endif
         }
     }
 
