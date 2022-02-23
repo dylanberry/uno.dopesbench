@@ -25,6 +25,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Xamarin.Essentials;
 using Windows.UI;
 using Microsoft.UI;
+using Uno.Foundation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -703,8 +704,7 @@ namespace DopeTestUno
 #elif HAS_UNO_WASM
             var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
             var browserDeviceIdiom = Windows.System.Profile.AnalyticsInfo.DeviceForm;
-            var clientInfo = new EasClientDeviceInformation();
-            var browserUserAgent = clientInfo.SystemSku;
+            var browserUserAgent = WebAssemblyRuntime.InvokeJS("navigator.userAgent;");
             var deviceInfo = new
             {
                 OS = "WebAssembly",
