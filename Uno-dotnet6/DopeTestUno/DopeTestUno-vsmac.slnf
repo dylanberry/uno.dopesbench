@@ -1,0 +1,14 @@
+{
+  "solution": {
+    "path": "DopeTestUno.sln",
+    "projects": [
+		"DopeTestUno.Shared\\DopeTestUno.Shared.shproj",
+
+		"DopeTestUno.Mobile\\DopeTestUno.Mobile.csproj",
+
+		"DopeTestUno.Wasm\\DopeTestUno.Wasm.csproj",
+
+		"DopeTestUno.Skia.Gtk\\DopeTestUno.Skia.Gtk.csproj",
+    ]
+  }
+}
