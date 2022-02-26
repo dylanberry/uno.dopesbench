@@ -1,4 +1,7 @@
-﻿using Saplin.xOPS.UI.Misc;
+﻿using Azure;
+using Azure.Storage.Blobs;
+using Newtonsoft.Json;
+using Saplin.xOPS.UI.Misc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,18 +9,23 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.ExchangeActiveSyncProvisioning;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+using Xamarin.Essentials;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI;
+using Uno.Foundation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -261,7 +269,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
 					var label = new TextBlock()
 					{
@@ -301,12 +309,12 @@ namespace DopeTestUno
                     }
                 }
 
-                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => loop());
+                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => loop());
             };
 
             sw.Start();
 
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () => loop());
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => loop());
         }
 
         void StartTestReuseST()
@@ -346,7 +354,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     var label = _cache.Count == 0 ? new TextBlock() { Foreground = new SolidColorBrush() } : _cache.Pop();
 
@@ -515,7 +523,7 @@ namespace DopeTestUno
                 }
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     var index = current++ % source.Length;
 
@@ -589,7 +597,7 @@ namespace DopeTestUno
                 var now = sw.ElapsedMilliseconds;
 
                 //60hz, 16ms to build the frame
-                while (sw.ElapsedMilliseconds - now < 16)
+                while (sw.ElapsedMilliseconds - now < 16 && !breakTest)
                 {
                     if (processed > max)
                     {
@@ -677,6 +685,113 @@ namespace DopeTestUno
             breakTest = true;
             stop.Visibility = Visibility.Collapsed;
             startChangeST.Visibility = startST.Visibility = startGridST.Visibility = Visibility.Visible;
+        }
+
+        async void startAll_Clicked(System.Object sender, object e)
+        {
+#if HAS_UNO_SKIA
+            var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
+            var deviceInfo = new
+            {
+                OS = "Skia",
+                OSVersion = deviceFamilyInfo.DeviceFamilyVersion,
+                //DeviceModel = DeviceInfo.Model,
+                //DeviceManufacturer = DeviceInfo.Manufacturer,
+                //DeviceName = DeviceInfo.Name,
+                //DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                //DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+#elif HAS_UNO_WASM
+            var deviceFamilyInfo = Windows.System.Profile.AnalyticsInfo.VersionInfo;
+            var browserDeviceIdiom = Windows.System.Profile.AnalyticsInfo.DeviceForm;
+            var browserUserAgent = WebAssemblyRuntime.InvokeJS("navigator.userAgent;");
+            var deviceInfo = new
+            {
+                OS = "WebAssembly",
+                //OSVersion = DeviceInfo.VersionString,
+                DeviceModel = browserUserAgent,
+                //DeviceManufacturer = DeviceInfo.Manufacturer,
+                //DeviceName = DeviceInfo.Name,
+                DeviceIdiom = browserDeviceIdiom,
+                //DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+#else
+            var deviceInfo = new
+            {
+                OS = DeviceInfo.Platform.ToString(),
+                OSVersion = DeviceInfo.VersionString,
+                DeviceModel = DeviceInfo.Model,
+                DeviceManufacturer = DeviceInfo.Manufacturer,
+                DeviceName = DeviceInfo.Name,
+                DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                DeviceType = DeviceInfo.DeviceType.ToString()
+            };
+#endif
+
+#if DEBUG
+            int testLengthMs = 5000;
+#else
+            int testLengthMs = 60000;
+#endif
+            int pauseLengthMs = 100;
+
+            startST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultST);
+
+            startChangeST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultChangeST);
+
+            startChangeReuse_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultReuseST);
+
+            startGridST_Clicked(default, default);
+            await Task.Delay(testLengthMs);
+            Stop_Clicked(default, default);
+            await Task.Delay(pauseLengthMs);
+            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultGridST);
+
+            var platformVersion = "Uno Platform 4.1.0-dev.617";
+
+            var results = new {
+                DeviceInfo = deviceInfo,
+                Platform = platformVersion,
+                Build = resultST,
+                Change = resultChangeST,
+                Reuse = resultReuseST,
+                Grid = resultGridST
+            };
+            string jsonString = JsonConvert.SerializeObject(results);
+
+            Console.WriteLine(jsonString);
+#if !DEBUG
+            try
+            {
+                //var client = new BlobServiceClient(Config.StorageConnectionString);
+                var client = new BlobServiceClient(new Uri(Config.StorageUrl), new AzureSasCredential(Config.StorageSasToken));
+                var blobContainerClient = client.GetBlobContainerClient("results");
+                await blobContainerClient.CreateIfNotExistsAsync();
+
+                var filename = $"{deviceInfo.OS}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
+
+                using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
+                    await blobContainerClient.UploadBlobAsync(filename, memoryStream);
+
+                Console.WriteLine("Uploaded.");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+#endif
         }
     }
 
