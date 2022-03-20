@@ -759,7 +759,7 @@ namespace DopeTestUno
             await Task.Delay(pauseLengthMs);
             _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultGridST);
 
-            var platformVersion = "Uno Platform 4.1.0-dev.617";
+            var platformVersion = "Uno Platform 4.2.0-dev.396";
 
             var results = new {
                 DeviceInfo = deviceInfo,

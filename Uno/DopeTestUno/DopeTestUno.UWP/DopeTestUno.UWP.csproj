@@ -23,7 +23,7 @@
     </PackageReference>
     <PackageReference Include="Uno.Core" Version="4.0.1" />
     <PackageReference Include="Uno.UI">
-      <Version>4.1.0-dev.617</Version>
+      <Version>4.2.0-dev.396</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
       <Version>1.7.1</Version>
