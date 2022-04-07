@@ -342,3 +342,4 @@ Uno/DopeTestUno/DopeTestUno.Shared/Config.cs
 *.vsconfig
 /Uno4.1/DopeTestUno/DopeTestUno.Shared/Config.cs
 Uno-latest/DopeTestUno/DopeTestUno.Shared/Config.cs
+/Uno-latest-dotnet6/DopeTestUno/DopeTestUno.Shared/Config.cs
