@@ -29,15 +29,8 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "DopeTestUno.Windows.Package
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{17284ad1-33ae-4060-a650-4ee6d97c9193}*SharedItemsImports = 5
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{25fd8a81-14e5-4389-b471-4676c846ed56}*SharedItemsImports = 4
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{2cb5ce61-43ec-4411-9adc-46890e794351}*SharedItemsImports = 5
 		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{53eabca9-104e-40dc-9f6d-9a54c324d18b}*SharedItemsImports = 5
 		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{856ab650-8eba-49b4-9b30-cf37309501d7}*SharedItemsImports = 4
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{8e070bcb-b78b-46b9-807c-16d4f739680a}*SharedItemsImports = 5
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{ab6551df-893b-415e-8db4-d4c1561291cb}*SharedItemsImports = 5
-		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{ce6d75c9-c8ef-4c98-a1aa-b3a8a7ec2e07}*SharedItemsImports = 4
 		DopeTestUno\DopeTestUno.Shared\DopeTestUno.Shared.projitems*{ddf53067-4643-4d38-9f5d-15b7d1f99ba5}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
