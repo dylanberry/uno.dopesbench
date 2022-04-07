@@ -7,6 +7,7 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.2.0-dev.592" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.0-dev.592" Condition="'$(Configuration)'=='Debug'" />
