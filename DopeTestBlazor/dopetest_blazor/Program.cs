@@ -1,4 +1,4 @@
-using dopetest_blazor_wasm;
+using dopetest_blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

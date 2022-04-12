@@ -163,22 +163,27 @@ body {
 
 button {
     font-family: 'IBMPlexMono';
-    position: absolute;
-    /*top: @(Height - 50)px;*/
     border: none;
     color: white;
     height: 30px;
     width: 96px;
     transform: translateX(-48px);
     font-size: 15px;
+}
+
+#controls {
+    position: absolute;
+    bottom: 50px;
     z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #stop {
     background-color: red;
 }
 
-#start {
+.start {
     background-color: green;
 }
 

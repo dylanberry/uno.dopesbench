@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dopetest_blazor_wasm
+namespace dopetest_blazor
 {
     // ==++==
     // 
