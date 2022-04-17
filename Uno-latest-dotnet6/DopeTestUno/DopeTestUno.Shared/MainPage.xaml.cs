@@ -716,14 +716,27 @@ namespace DopeTestUno
 #else
             var deviceInfo = new
             {
-                OS = DeviceInfo.Platform.ToString(),
-                OSVersion = DeviceInfo.VersionString,
-                DeviceModel = DeviceInfo.Model,
-                DeviceManufacturer = DeviceInfo.Manufacturer,
-                DeviceName = DeviceInfo.Name,
-                DeviceIdiom = DeviceInfo.Idiom.ToString(),
-                DeviceType = DeviceInfo.DeviceType.ToString()
+                OS = "mac catalyst",
+                OSVersion = string.Empty,
+                DeviceModel = string.Empty,
+                DeviceManufacturer = string.Empty,
+                DeviceName = string.Empty,
+                DeviceIdiom = string.Empty,
+                DeviceType = string.Empty
             };
+            try
+            {
+                deviceInfo = new
+                {
+                    OS = DeviceInfo.Platform.ToString(),
+                    OSVersion = DeviceInfo.VersionString,
+                    DeviceModel = DeviceInfo.Model,
+                    DeviceManufacturer = DeviceInfo.Manufacturer,
+                    DeviceName = DeviceInfo.Name,
+                    DeviceIdiom = DeviceInfo.Idiom.ToString(),
+                    DeviceType = DeviceInfo.DeviceType.ToString()
+                };
+            } catch { }
 #endif
 
 #if DEBUG
@@ -773,26 +786,26 @@ namespace DopeTestUno
             Console.WriteLine(jsonString);
             dopes.Text = $"Build: {results.Build}; Change: {results.Change}";
 
-//#if !DEBUG
-//            try
-//            {
-//                //var client = new BlobServiceClient(Config.StorageConnectionString);
-//                var client = new BlobServiceClient(new Uri(Config.StorageUrl), new AzureSasCredential(Config.StorageSasToken));
-//                var blobContainerClient = client.GetBlobContainerClient("results");
-//                await blobContainerClient.CreateIfNotExistsAsync();
+#if !DEBUG
+           try
+           {
+                //var client = new BlobServiceClient(Config.StorageConnectionString);
+                var client = new BlobServiceClient(new Uri(Config.StorageUrl), new AzureSasCredential(Config.StorageSasToken));
+                var blobContainerClient = client.GetBlobContainerClient("results");
+                await blobContainerClient.CreateIfNotExistsAsync();
 
-            //                var filename = $"{deviceInfo.OS}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
+                var filename = $"{deviceInfo.OS}-{platformVersion}-{DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss")}.json";
 
-            //                using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
-            //                    await blobContainerClient.UploadBlobAsync(filename, memoryStream);
+                using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
+                    await blobContainerClient.UploadBlobAsync(filename, memoryStream);
 
-            //                Console.WriteLine("Uploaded.");
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                throw;
-            //            }
-            //#endif
+                Console.WriteLine("Uploaded.");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+#endif
         }
     }
 

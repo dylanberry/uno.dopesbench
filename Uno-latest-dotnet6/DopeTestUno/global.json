@@ -1,7 +1,4 @@
 {
-  "sdk": {
-    "allowPrerelease": true,
-    "version": "6.0.100-preview.6.21355.2",
-    "rollForward": "latestMajor"
-  }
+  // required until .NET 6.0.300 is published
+  "sdk": { "allowPrerelease": true }
 }
