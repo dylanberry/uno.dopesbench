@@ -803,7 +803,7 @@ namespace DopeTestUno
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex);
             }
 #endif
         }

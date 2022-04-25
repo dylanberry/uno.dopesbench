@@ -745,17 +745,17 @@ namespace DopeTestUno
             await Task.Delay(pauseLengthMs);
             _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultChangeST);
 
-            startChangeReuse_Clicked(default, default);
-            await Task.Delay(testLengthMs);
-            Stop_Clicked(default, default);
-            await Task.Delay(pauseLengthMs);
-            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultReuseST);
+            //startChangeReuse_Clicked(default, default);
+            //await Task.Delay(testLengthMs);
+            //Stop_Clicked(default, default);
+            //await Task.Delay(pauseLengthMs);
+            //_ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultReuseST);
 
-            startGridST_Clicked(default, default);
-            await Task.Delay(testLengthMs);
-            Stop_Clicked(default, default);
-            await Task.Delay(pauseLengthMs);
-            _ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultGridST);
+            //startGridST_Clicked(default, default);
+            //await Task.Delay(testLengthMs);
+            //Stop_Clicked(default, default);
+            //await Task.Delay(pauseLengthMs);
+            //_ = Decimal.TryParse(dopes.Text.Replace(" Dopes/s (AVG)", "").Trim(), out var resultGridST);
 
             var platformVersion = "Uno Platform 4.2.0-dev.592";
 
@@ -765,8 +765,8 @@ namespace DopeTestUno
                 Platform = platformVersion,
                 Build = resultST,
                 Change = resultChangeST,
-                Reuse = resultReuseST,
-                Grid = resultGridST
+                Reuse = 0,
+                Grid = 0
             };
             string jsonString = JsonConvert.SerializeObject(results);
 
@@ -788,7 +788,7 @@ namespace DopeTestUno
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex);
             }
 #endif
         }
