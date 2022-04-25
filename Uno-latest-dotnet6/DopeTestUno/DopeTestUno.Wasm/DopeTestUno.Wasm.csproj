@@ -49,8 +49,8 @@
     <PackageReference Include="Uno.UI.WebAssembly" Version="4.2.0-dev.603" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.0-dev.603" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.2.0-dev.603" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="4.0.0-dev.103" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="4.0.0-dev.103" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
   </ItemGroup>
   <Import Project="..\DopeTestUno.Shared\DopeTestUno.Shared.projitems" Label="Shared" Condition="Exists('..\DopeTestUno.Shared\DopeTestUno.Shared.projitems')" />
